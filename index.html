@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digitalt CV</title>
+  <style>
+    /* Grundinställningar */
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #222222;
+      --accent-color: #007BFF;
+      --nav-bg: rgba(255, 255, 255, 0.95);
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --accent-color: #1E90FF;
+      --nav-bg: rgba(18, 18, 18, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background-color: var(--nav-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin-left: 1.5rem;
+    }
+
+    nav button {
+      margin-left: 1.5rem;
+      padding: 0.4rem 0.8rem;
+      border: none;
+      background-color: var(--accent-color);
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    nav button:hover {
+      opacity: 0.9;
+    }
+
+    /* Sektioner */
+    section {
+      padding: 6rem 2rem 4rem;
+      max-width: 900px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1, h2, h3 {
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    ul.skills {
+      list-style: disc inside;
+      margin: 0;
+      padding-left: 0;
+    }
+
+    /* Kontaktformulär */
+    form input, form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    form button {
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      opacity: 0.9;
+    }
+
+    /* Media queries */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        background-color: var(--nav-bg);
+        position: absolute;
+        top: 60px;
+        left: -100%;
+        width: 100%;
+        transition: left 0.3s;
+      }
+
+      nav ul.show {
+        left: 0;
+      }
+
+      nav ul li {
+        margin: 1rem 0;
+      }
+
+      nav .menu-toggle {
+        display: block;
+        cursor: pointer;
+      }
+    }
+
+    @media (min-width: 769px) {
+      nav .menu-toggle {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <nav>
+    <div class="logo">Mitt CV</div>
+    <div class="menu-toggle">&#9776;</div>
+    <ul>
+      <li><a href="#about">Om mig</a></li>
+      <li><a href="#experience">Erfarenhet</a></li>
+      <li><a href="#education">Utbildning</a></li>
+      <li><a href="#skills">Färdigheter</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+      <li><button id="theme-toggle">Tema</button></li>
+    </ul>
+  </nav>
+
+  <section id="about">
+    <h1>Om mig</h1>
+    <p>Hej! Jag heter [Ditt namn] och är en driven person med erfarenhet inom [exempelområde]. Jag gillar att lösa problem, utveckla mina färdigheter och skapa snygga lösningar.</p>
+  </section>
+
+  <section id="experience">
+    <h2>Arbetslivserfarenhet</h2>
+    <h3>Jobbtitel 1 – Företag A</h3>
+    <p>2020 - 2023</p>
+    <p>Beskrivning av arbetsuppgifter och prestationer.</p>
+
+    <h3>Jobbtitel 2 – Företag B</h3>
+    <p>2018 - 2020</p>
+    <p>Beskrivning av arbetsuppgifter och prestationer.</p>
+  </section>
+
+  <section id="education">
+    <h2>Utbildning</h2>
+    <h3>Examen – Skola/Universitet</h3>
+    <p>2015 - 2018</p>
+    <p>Beskrivning av utbildning och relevanta prestationer.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Färdigheter</h2>
+    <ul class="skills">
+      <li>Programmering: HTML, CSS, JavaScript</li>
+      <li>Projektledning</li>
+      <li>Kommunikation</li>
+      <li>Problemlösning</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2>Kontakt</h2>
+    <form>
+      <input type="text" placeholder="Namn" required>
+      <input type="email" placeholder="E-post" required>
+      <textarea rows="4" placeholder="Meddelande" required></textarea>
+      <button type="submit">Skicka</button>
+    </form>
+  </section>
+
+  <script>
+    // Tema toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.body.getAttribute('data-theme');
+      document.body.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+    });
+
+    // Scroll animation
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Mobilmeny toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navUl = document.querySelector('nav ul');
+    menuToggle.addEventListener('click', () => {
+      navUl.classList.toggle('show');
+    });
+
+    // Stäng mobilmeny vid klick på länk
+    navUl.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navUl.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>
