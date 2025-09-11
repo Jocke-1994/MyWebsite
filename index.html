@@ -1,270 +1,329 @@
-<!DOCTYPE html>
-<html lang="sv">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital CV</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Next-Gen Single File Site</title>
+  <meta name="description" content="A modern, cool, responsive single-file website ready for GitHub Pages." />
   <style>
-    /* Grundinställningar */
-    :root {
-      --bg-color: #ffffff;
-      --text-color: #222222;
-      --accent-color: #007BFF;
-      --nav-bg: rgba(255, 255, 255, 0.95);
+    :root{
+      --bg:#0f1724;
+      --panel:linear-gradient(135deg,#0f1724 0%, #102a43 100%);
+      --accent:#7c5cff;
+      --muted:rgba(255,255,255,0.65);
+      --glass: rgba(255,255,255,0.04);
+      --radius:16px;
+      --maxw:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", "Helvetica Neue", monospace;
+      --ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-
-    [data-theme="dark"] {
-      --bg-color: #121212;
-      --text-color: #f0f0f0;
-      --accent-color: #1E90FF;
-      --nav-bg: rgba(18, 18, 18, 0.95);
+    /* Light theme fallback (toggle switches variables) */
+    :root[data-theme='light']{
+      --bg: #f7f9fc;
+      --panel: linear-gradient(135deg,#ffffff 0%, #f0f5ff 100%);
+      --accent:#6b5cff;
+      --muted: rgba(10,10,20,0.6);
+      --glass: rgba(10,10,20,0.03);
     }
-
-    * {
-      box-sizing: border-box;
-      scroll-behavior: smooth;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;min-height:100%;font-family:var(--ui);background:radial-gradient(1200px 400px at 10% 10%, rgba(124,92,255,0.08), transparent), radial-gradient(800px 300px at 90% 90%, rgba(102,255,210,0.03), transparent), var(--bg);color:#fff;line-height:1.45;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:32px 20px;
+      display:flex;justify-content:center;align-items:flex-start;
     }
+    .wrap{width:100%;max-width:var(--maxw);}
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.6;
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px;border-radius:14px;background:var(--panel);backdrop-filter: blur(6px);box-shadow: 0 6px 30px rgba(2,6,23,0.6);
     }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#00d4ff);box-shadow: 0 6px 20px rgba(0,0,0,0.35);}
+    .logo svg{width:24px;height:24px;transform:rotate(10deg)}
+    .title{font-weight:700;letter-spacing:-0.02em}
+    nav{display:flex;gap:12px;align-items:center}
+    .nav-link{padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600;font-size:14px}
+    .nav-link:hover{color: #fff;background:var(--glass)}
 
-    a {
-      color: var(--accent-color);
-      text-decoration: none;
+    .hero{
+      margin-top:18px;padding:28px;border-radius:20px;background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow: 0 20px 60px rgba(2,6,23,0.6);
+      display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center;overflow:hidden;
     }
+    @media (max-width:960px){.hero{grid-template-columns:1fr;}.wrap{padding-bottom:40px}}
 
-    a:hover {
-      text-decoration: underline;
-    }
+    .hero-left h1{font-size:clamp(26px,4vw,40px);margin:0 0 8px}
+    .kicker{display:inline-block;background:linear-gradient(90deg,var(--accent),#00d4ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+    .lead{color:var(--muted);margin-bottom:18px}
 
-    /* Navbar */
-    nav {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      background-color: var(--nav-bg);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
+    .cta-row{display:flex;gap:12px;align-items:center}
+    .btn{padding:12px 18px;border-radius:12px;font-weight:700;border:0;cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#00d4ff);color:#041022;box-shadow:0 8px 30px rgba(92,53,255,0.18)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
 
-    nav .logo {
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:14px}
 
-    nav ul {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
+    /* small feature grid */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    .feature{padding:12px;border-radius:12px;background:var(--glass);text-align:center}
+    .feature h3{margin:8px 0 0;font-size:14px}
+    .feature p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    @media (max-width:720px){.features{grid-template-columns:repeat(2,1fr)}}
 
-    nav ul li {
-      margin-left: 1.5rem;
-    }
+    /* right panel visual */
+    .visual{padding:22px;border-radius:16px;display:flex;flex-direction:column;gap:12px;align-items:stretch}
+    .visual .badge{align-self:start;padding:8px 10px;border-radius:999px;background:linear-gradient(90deg,#ffffff08,#ffffff04);font-weight:700}
+    .chart{height:160px;border-radius:12px;background:linear-gradient(90deg,#091226, #052034);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
 
-    nav button {
-      margin-left: 1.5rem;
-      padding: 0.4rem 0.8rem;
-      border: none;
-      background-color: var(--accent-color);
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
+    /* sections */
+    main{margin-top:20px;display:grid;grid-template-columns:1fr 340px;gap:20px}
+    @media (max-width:960px){main{grid-template-columns:1fr}}
 
-    nav button:hover {
-      opacity: 0.9;
-    }
+    section.panel{padding:18px;border-radius:16px;background:var(--panel);}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:720px){.grid-2{grid-template-columns:1fr}}
 
-    /* Sektioner */
-    section {
-      padding: 6rem 2rem 4rem;
-      max-width: 900px;
-      margin: auto;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease-out;
-    }
+    .portfolio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .thumb{height:100px;border-radius:10px;background:linear-gradient(135deg,#123 0%, #246 100%);display:flex;align-items:center;justify-content:center;font-weight:800}
+    @media (max-width:960px){.portfolio{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.portfolio{grid-template-columns:1fr}}
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    footer{margin-top:18px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));display:flex;justify-content:space-between;align-items:center}
 
-    h1, h2, h3 {
-      color: var(--accent-color);
-      margin-bottom: 1rem;
-    }
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:var(--glass)}
 
-    p {
-      margin-bottom: 1rem;
-    }
+    /* mobile nav & toggles */
+    .mobile-toggle{display:none}
+    .hamburger{display:none;background:transparent;border:0;padding:8px;border-radius:8px}
+    @media (max-width:780px){nav{display:none}.hamburger{display:inline-flex}.mobile-toggle{display:block}header{flex-direction:column;align-items:stretch}}
 
-    ul.skills {
-      list-style: disc inside;
-      margin: 0;
-      padding-left: 0;
-    }
+    /* small animations */
+    .logo, .card, .thumb{transition:transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s}
+    .logo:hover{transform:translateY(-4px) rotate(6deg)}
+    .thumb:hover{transform:translateY(-6px) scale(1.02)}
 
-    /* Kontaktformulär */
-    form input, form textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-    }
+    /* accessibility focus */
+    a:focus, button:focus{outline:3px solid rgba(124,92,255,0.18);outline-offset:3px}
 
-    form button {
-      background-color: var(--accent-color);
-      color: #fff;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    form button:hover {
-      opacity: 0.9;
-    }
-
-    /* Media queries */
-    @media (max-width: 768px) {
-      nav ul {
-        flex-direction: column;
-        background-color: var(--nav-bg);
-        position: absolute;
-        top: 60px;
-        left: -100%;
-        width: 100%;
-        transition: left 0.3s;
-      }
-
-      nav ul.show {
-        left: 0;
-      }
-
-      nav ul li {
-        margin: 1rem 0;
-      }
-
-      nav .menu-toggle {
-        display: block;
-        cursor: pointer;
-      }
-    }
-
-    @media (min-width: 769px) {
-      nav .menu-toggle {
-        display: none;
-      }
-    }
+    /* utilities */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   </style>
 </head>
-<body data-theme="light">
-  <nav>
-    <div class="logo">Joakim Rehn</div>
-    <div class="menu-toggle">&#9776;</div>
-    <ul>
-      <li><a href="#about">About Me</a></li>
-      <!-- <li><a href="#experience">Experience</a></li>-->
-      <li><a href="#education">Education</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><button id="theme-toggle">Theme</button></li>
-    </ul>
-  </nav>
+<body>
+  <div class="wrap">
+    <header role="banner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- simple geometric mark -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" fill="white" opacity="0.14"/><path d="M6 17L10 7L14 17" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/></svg>
+        </div>
+        <div>
+          <div class="title">NovaOne</div>
+          <div class="muted" style="font-size:12px">Single-file starter • GitHub Pages ready</div>
+        </div>
+      </div>
 
-  <section id="about">
-    <h1>About me</h1>
-    <p>Hello! My name is Joakim Rehn. I´m a driven software engineer with passion for problem solving. I love taking on new challenges and learning everything i can. Combining my passion for problem solving and IT.</p>
-  </section>
+      <nav role="navigation" aria-label="Main navigation">
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#work">Work</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <button class="nav-link btn-ghost" id="themeBtn" aria-pressed="false" title="Toggle theme">Toggle</button>
+      </nav>
 
-  <!-- Hidden for now -->
-  <!--
-  <section id="experience">
-    <h2>Worklife Experience</h2>
-    <h3>Lagermedarbetare – ICA</h3>
-    <p>2020 - 2023</p>
-    <p>Beskrivning av arbetsuppgifter och prestationer.</p>
+      <button class="hamburger" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
 
-    <h3>Jobbtitel 2 – Företag B</h3>
-    <p>2018 - 2020</p>
-    <p>Beskrivning av arbetsuppgifter och prestationer.</p>
-  </section>
-  -->
+      <div id="mobileMenu" class="mobile-toggle" hidden>
+        <div style="display:flex;flex-direction:column;padding:12px;gap:8px">
+          <a class="nav-link" href="#features">Features</a>
+          <a class="nav-link" href="#work">Work</a>
+          <a class="nav-link" href="#contact">Contact</a>
+        </div>
+      </div>
+    </header>
 
-  <section id="education">
-    <h2>Education</h2>
-    <h3>Graduating – NBI Handelsakademin</h3>
-    <p>2025 - 2027</p>
-    <p>I graduated as a software engineer.</p>
-  </section>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-left">
+        <div class="kicker">Build fast — ship faster</div>
+        <h1 id="heroTitle">A modern, single-file website<br/><span style="color:var(--accent)">fast to deploy</span> and easy to customize.</h1>
+        <p class="lead">Everything — HTML, CSS and JavaScript — in one file. Drag into your GitHub repository as <code>index.html</code> and enable GitHub Pages. Responsive, accessible and lightweight.</p>
 
-  <section id="skills">
-    <h2>Skills</h2>
-    <ul class="skills">
-      <li>Programming: Fullstack, Cloud.</li>
-      <li>Projectmanagement</li>
-    </ul>
-  </section>
+        <div class="cta-row">
+          <button class="btn btn-primary" id="downloadBtn">Download HTML</button>
+          <a class="btn btn-ghost" href="#work">See demo</a>
+        </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <form>
-      <input type="text" placeholder="Name" required>
-      <input type="email" placeholder="Email" required>
-      <textarea rows="4" placeholder="Message" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
+        <div class="features" style="margin-top:18px">
+          <div class="feature">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 2v20" stroke="white" stroke-width="1.6" stroke-linecap="round"/><path d="M6 8h12" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <h3>Single File</h3>
+            <p>All assets inline — push and go.</p>
+          </div>
+          <div class="feature">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 4-9 4-9-4 9-4z" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 11v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Responsive</h3>
+            <p>Looks great on every device.</p>
+          </div>
+          <div class="feature">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.6"/><path d="M12 8v4l2 2" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <h3>Modern</h3>
+            <p>Animations, theming and microinteractions.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card visual" aria-label="Quick preview panel">
+        <div class="badge">Preview</div>
+        <div class="chart" id="spark">Loading chart…</div>
+        <div style="display:flex;gap:8px;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:800">Launch Ready</div>
+            <div class="muted" style="font-size:13px">Minor tweaks before publishing</div>
+          </div>
+          <div class="pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="muted">v1.0</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <main>
+      <section class="panel" id="features">
+        <h2 style="margin-top:0">Features &amp; how to use</h2>
+        <p class="muted">Drop this file into the root of your repository, enable GitHub Pages in the repository settings, and pick the branch to publish. No build steps required.</p>
+
+        <div class="grid-2" style="margin-top:12px">
+          <div class="card">
+            <h3 style="margin-top:0">Theming</h3>
+            <p class="muted">Toggle between dark and light modes. Colors are controlled by CSS variables at the top of the file for easy customization.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin-top:0">Customization</h3>
+            <p class="muted">Replace text, tweak the gradient variables, or add your own sections. Keep everything in this file for portability.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:18px">Example snippets</h3>
+        <div class="card" style="margin-top:8px;font-family:var(--mono);font-size:13px;white-space:pre-wrap">&lt;!-- Save as index.html and push --&gt;\n&lt;!-- No external CSS or JS required --&gt;</div>
+      </section>
+
+      <aside class="panel" id="contact">
+        <h3 style="margin-top:0">Get in touch</h3>
+        <p class="muted">Reach out or edit this file directly in your GitHub repo.</p>
+        <form id="contactForm" style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <input name="name" placeholder="Your name" required style="padding:10px;border-radius:10px;border:0;background:transparent;border:1px solid rgba(255,255,255,0.05);color:inherit" />
+          <input name="email" placeholder="Email" required type="email" style="padding:10px;border-radius:10px;border:0;background:transparent;border:1px solid rgba(255,255,255,0.05);color:inherit" />
+          <textarea name="message" placeholder="Message" rows="4" style="padding:10px;border-radius:10px;border:0;background:transparent;border:1px solid rgba(255,255,255,0.05);color:inherit"></textarea>
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+        <div style="margin-top:12px" class="muted">Or just open <code>index.html</code> and hit edit on GitHub.</div>
+      </aside>
+
+      <section class="panel" id="work">
+        <h3 style="margin-top:0">Recent work</h3>
+        <div class="portfolio" style="margin-top:12px">
+          <div class="thumb">A</div>
+          <div class="thumb">B</div>
+          <div class="thumb">C</div>
+          <div class="thumb">D</div>
+          <div class="thumb">E</div>
+          <div class="thumb">F</div>
+        </div>
+
+        <h4 style="margin-top:16px">Performance</h4>
+        <p class="muted">Because everything is inline, initial requests are small and predictable. Use GitHub Pages with Brotli/HTTP caching for best results.</p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="muted">© <span id="year"></span> NovaOne — Built as a single-file template</div>
+      <div class="muted">Made with ❤️ • <a href="#" style="color:var(--muted);text-decoration:underline">Fork on GitHub</a></div>
+    </footer>
+  </div>
 
   <script>
-    // Tema toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = document.body.getAttribute('data-theme');
-      document.body.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
-    });
+    // Theme toggle (persists to localStorage)
+    (function(){
+      const root = document.documentElement;
+      const themeBtn = document.getElementById('themeBtn');
+      const stored = localStorage.getItem('nova-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initTheme = stored || (prefersDark ? 'dark' : 'light');
+      root.setAttribute('data-theme', initTheme);
+      themeBtn.textContent = initTheme === 'dark' ? 'Light' : 'Dark';
+      themeBtn.setAttribute('aria-pressed', initTheme === 'dark');
 
-    // Scroll animation
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add('visible');
-        }
+      themeBtn.addEventListener('click', ()=>{
+        const cur = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', cur);
+        localStorage.setItem('nova-theme', cur);
+        themeBtn.textContent = cur === 'dark' ? 'Light' : 'Dark';
+        themeBtn.setAttribute('aria-pressed', cur === 'dark');
       });
-    }, { threshold: 0.1 });
+    })();
 
-    sections.forEach(section => observer.observe(section));
+    // Mobile menu
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const menu = document.getElementById('mobileMenu');
+      btn.addEventListener('click', ()=>{
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        if(open){ menu.hidden = true } else { menu.hidden = false }
+      })
+    })();
 
-    // Mobilmeny toggle
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navUl = document.querySelector('nav ul');
-    menuToggle.addEventListener('click', () => {
-      navUl.classList.toggle('show');
-    });
+    // tiny chart (spark) rendered with SVG
+    (function(){
+      const el = document.getElementById('spark');
+      function render(values){
+        const w = el.clientWidth || 360; const h = el.clientHeight || 140; const max = Math.max(...values);
+        const min = Math.min(...values);
+        const points = values.map((v,i)=>{
+          const x = (i/(values.length-1))*w; const y = h - ((v-min)/(max-min||1))*h;
+          return x+','+y;
+        }).join(' ');
+        el.innerHTML = '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none" width="100%" height="100%">'
+          +'<defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7c5cff" stop-opacity="0.9"/><stop offset="1" stop-color="#00d4ff" stop-opacity="0.12"/></linearGradient></defs>'
+          +'<polyline points="'+points+'" fill="none" stroke="#bdb6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>'
+          +'<polygon points="0,'+h+' '+points+' '+w+','+h+'" fill="url(#g)" opacity="0.18"></polygon>'
+          +'</svg>';
+      }
+      // sample values — replaceable
+      render([10,26,18,34,28,40,32,45]);
+      // re-render on resize
+      window.addEventListener('resize', ()=>render([10,26,18,34,28,40,32,45]));
+    })();
 
-    // Stäng mobilmeny vid klick på länk
-    navUl.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navUl.classList.remove('show');
+    // fake contact form behavior
+    (function(){
+      const form = document.getElementById('contactForm');
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        btn.disabled = true; btn.textContent = 'Sending…';
+        setTimeout(()=>{ btn.textContent = 'Sent ✓'; btn.classList.add('pill'); }, 900);
+      })
+    })();
+
+    // download self as file (useful for quick save)
+    (function(){
+      const btn = document.getElementById('downloadBtn');
+      btn.addEventListener('click', ()=>{
+        const content = '<!doctype html>' + document.documentElement.outerHTML;
+        const blob = new Blob([content], {type:'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'index.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
       });
-    });
+    })();
+
+    // small runtime touches
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Accessibility: reduce animations if user prefers
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.documentElement.style.setProperty('--reduce-motion','true');
+      document.querySelectorAll('.logo,.thumb').forEach(n=>n.style.transition='none');
+    }
   </script>
 </body>
 </html>
